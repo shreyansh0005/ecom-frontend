@@ -1,20 +1,19 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux'
+import { useForm } from 'react-hook-form'
 
-import { selectLoggedInUser, createUserAsync } from '../authSlice';
-import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { selectLoggedInUser, createUserAsync } from '../authSlice'
+import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 export default function Signup() {
-  const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
+  const dispatch = useDispatch()
+  const user = useSelector(selectLoggedInUser)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
+  } = useForm()
 
   return (
     <>
@@ -41,10 +40,10 @@ export default function Signup() {
                   email: data.email,
                   password: data.password,
                   addresses: [],
-                  role:'user'
+                  role: 'user',
                 })
-              );
-              console.log(data);
+              )
+              console.log(data)
             })}
           >
             <div>
@@ -60,7 +59,7 @@ export default function Signup() {
                   {...register('email', {
                     required: 'email is required',
                     pattern: {
-                      value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                      value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi, //if email matches the valid format
                       message: 'email not valid',
                     },
                   })}
@@ -154,5 +153,5 @@ export default function Signup() {
         </div>
       </div>
     </>
-  );
+  )
 }

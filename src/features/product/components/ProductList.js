@@ -1,5 +1,5 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, Fragment, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchBrandsAsync,
   fetchCategoriesAsync,
@@ -9,43 +9,53 @@ import {
   selectCategories,
   selectProductListStatus,
   selectTotalItems,
-} from '../productSlice';
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+} from '../productSlice'
+import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   StarIcon,
-} from '@heroicons/react/20/solid';
-import { Link } from 'react-router-dom';
+} from '@heroicons/react/20/solid'
+import { Link } from 'react-router-dom'
 import {
   ChevronDownIcon,
   FunnelIcon,
   MinusIcon,
   PlusIcon,
   Squares2X2Icon,
-} from '@heroicons/react/20/solid';
-import { ITEMS_PER_PAGE } from '../../../app/constants';
-import Pagination from '../../common/Pagination';
-import { Grid } from 'react-loader-spinner';
+} from '@heroicons/react/20/solid'
+import { ITEMS_PER_PAGE } from '../../../app/constants'
+import Pagination from '../../common/Pagination'
+import { Grid } from 'react-loader-spinner'
 
 const sortOptions = [
   { name: 'Best Rating', sort: 'rating', order: 'desc', current: false },
-  { name: 'Price: Low to High', sort: 'discountPrice', order: 'asc', current: false },
-  { name: 'Price: High to Low', sort: 'discountPrice', order: 'desc', current: false },
-];
+  {
+    name: 'Price: Low to High',
+    sort: 'discountPrice',
+    order: 'asc',
+    current: false,
+  },
+  {
+    name: 'Price: High to Low',
+    sort: 'discountPrice',
+    order: 'desc',
+    current: false,
+  },
+]
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 export default function ProductList() {
-  const dispatch = useDispatch();
-  const products = useSelector(selectAllProducts);
-  const brands = useSelector(selectBrands);
-  const categories = useSelector(selectCategories);
-  const totalItems = useSelector(selectTotalItems);
-  const status = useSelector(selectProductListStatus);
+  const dispatch = useDispatch()
+  const products = useSelector(selectAllProducts)
+  const brands = useSelector(selectBrands)
+  const categories = useSelector(selectCategories)
+  const totalItems = useSelector(selectTotalItems)
+  const status = useSelector(selectProductListStatus)
   const filters = [
     {
       id: 'category',
@@ -57,57 +67,55 @@ export default function ProductList() {
       name: 'Brands',
       options: brands,
     },
-  ];
+  ]
 
-  const [filter, setFilter] = useState({});
-  const [sort, setSort] = useState({});
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState({})
+  const [sort, setSort] = useState({})
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
 
   const handleFilter = (e, section, option) => {
-    console.log(e.target.checked);
-    const newFilter = { ...filter };
+    console.log(e.target.checked)
+    const newFilter = { ...filter }
     if (e.target.checked) {
       if (newFilter[section.id]) {
-        newFilter[section.id].push(option.value);
+        newFilter[section.id].push(option.value)
       } else {
-        newFilter[section.id] = [option.value];
+        newFilter[section.id] = [option.value]
       }
     } else {
-      const index = newFilter[section.id].findIndex(
-        (el) => el === option.value
-      );
-      newFilter[section.id].splice(index, 1);
+      const index = newFilter[section.id].findIndex((el) => el === option.value)
+      newFilter[section.id].splice(index, 1)
     }
-    console.log({ newFilter });
+    console.log({ newFilter })
 
-    setFilter(newFilter);
-  };
+    setFilter(newFilter)
+  }
 
   const handleSort = (e, option) => {
-    const sort = { _sort: option.sort, _order: option.order };
-    console.log({ sort });
-    setSort(sort);
-  };
+    const sort = { _sort: option.sort, _order: option.order }
+    console.log({ sort })
+    setSort(sort)
+  }
 
   const handlePage = (page) => {
-    console.log({ page });
-    setPage(page);
-  };
+    console.log({ page })
+    setPage(page)
+  }
 
   useEffect(() => {
-    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
-  }, [dispatch, filter, sort, page]);
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE }
+    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }))
+  }, [dispatch, filter, sort, page])
 
   useEffect(() => {
-    setPage(1);
-  }, [totalItems, sort]);
+    setPage(1)
+  }, [totalItems, sort])
 
   useEffect(() => {
-    dispatch(fetchBrandsAsync());
-    dispatch(fetchCategoriesAsync());
-  }, []);
+    dispatch(fetchBrandsAsync())
+    dispatch(fetchCategoriesAsync())
+  }, [])
 
   return (
     <div className="bg-white">
@@ -217,7 +225,7 @@ export default function ProductList() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
 function MobileFilter({
@@ -336,7 +344,7 @@ function MobileFilter({
         </div>
       </Dialog>
     </Transition.Root>
-  );
+  )
 }
 
 function DesktopFilter({ handleFilter, filters }) {
@@ -392,7 +400,7 @@ function DesktopFilter({ handleFilter, filters }) {
         </Disclosure>
       ))}
     </form>
-  );
+  )
 }
 
 function ProductGrid({ products, status }) {
@@ -460,5 +468,5 @@ function ProductGrid({ products, status }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
